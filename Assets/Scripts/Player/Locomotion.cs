@@ -40,7 +40,7 @@ public class Locomotion : MonoBehaviour
         GetIsInteracting();
     }
     void HandleMove()
-    {
+    {   //need refactor
         if (canMove)
         {
             Vector3 direction = inputHandler.moveDirection;
@@ -50,10 +50,8 @@ public class Locomotion : MonoBehaviour
         }
     }
     void HandleRotation(float delta)
-    {
+    { 
         Vector3 direction = inputHandler.moveDirection;
-
-
         if (canRotate)
         {
             if(direction != Vector3.zero)
@@ -68,24 +66,26 @@ public class Locomotion : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
         }
-
     }
     void HandleRoll(float delta)
     {
         //remove input and use addforce parallel to the forward direction of the player
-        print(isInteracting);
-        if (inputHandler.rollInputPressed && !isInteracting)
+        if (inputHandler.moveDirection != Vector3.zero)
         {
-            DisableRotate();
-            DisableMove();
-            animationHandler.PlayTargetAnimation("Roll", true, .5f);
-            rb.AddForce(transform.forward * forwardRollSpeed, ForceMode.Impulse);
+            if (inputHandler.rollInputPressed && !isInteracting)
+            {
+                DisableRotate();
+                DisableMove();
+                animationHandler.PlayTargetAnimation("Roll", true, .5f);
+                rb.velocity = transform.forward * forwardRollSpeed;
+            }
+            else if (!isInteracting)
+            {
+                EnableRotate();
+                EnableMove();
+            }
         }
-        else if(!isInteracting)
-        {
-            EnableRotate();
-            EnableMove();
-        }
+        
     }
     void HandleInteract()
     {
