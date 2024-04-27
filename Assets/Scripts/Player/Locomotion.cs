@@ -93,7 +93,6 @@ public class Locomotion : MonoBehaviour
         {
             DisableRotate();
             DisableMove();
-            animationHandler.PlayTargetAnimation("Grab", true, .3f);
         }
         else if (!isInteracting)
         {

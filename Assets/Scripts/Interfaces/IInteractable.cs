@@ -1,5 +1,5 @@
 public interface IInteractable 
 {
+    InteractableConfig GetInteractableConfig();
     void Interact();
-    void ShowInteractUI(bool showUI);
 }

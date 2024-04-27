@@ -3,42 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+
 public class Chest : MonoBehaviour, IInteractable
 {
     [SerializeField] private InteractableConfig objectDetails;
 
     [Header("UI Settings")]
-    [SerializeField] private TextMeshProUGUI interactText;
-    [SerializeField] private GameObject interactBox;
+    [SerializeField] private string interactText;
 
     [Header("Items")]
     [SerializeField] private GameObject[] lootPrefabs;
-    [SerializeField] private float lootForce = 10f;
-    [SerializeField] private float maxAngleVariation = 45f;
-    [SerializeField] private Transform spawmLocation;
+    [SerializeField] private Transform spawnLocation;
+    [SerializeField] private float throwForce = 5f;
+
+    public bool isOpened = false;
+
+    public delegate void ItemSpawnedEventHandler();
+    public static event ItemSpawnedEventHandler OnChestOpened;
+
+    public InteractableConfig GetInteractableConfig()
+    {
+        print(objectDetails.objName);
+        return objectDetails;
+    }
     public void Interact()
     {
-        print(lootPrefabs[0].name);
-        //Open Chest - animation
-        //Drop Item - use addforce to make loots jump out of chest
-        foreach (GameObject lootPrefab in lootPrefabs)
-        {
-            GameObject instantiatedLoot = Instantiate(lootPrefab, spawmLocation.transform.position, Quaternion.identity);
-            Rigidbody lootRB = instantiatedLoot.GetComponent<Rigidbody>();
+        // Open Chest - animation
 
-            if (lootRB != null)
+        //Spawn Items w/ force and spinning functions using action events
+        foreach(GameObject loot in lootPrefabs)
+        {
+            GameObject instantiatedLoot = Instantiate(loot, spawnLocation.position, Quaternion.identity);
+            Rigidbody rb = instantiatedLoot.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                // Generate a random vector with some variation in the angle
-                float angleVariation = Random.Range(-maxAngleVariation, maxAngleVariation);
-                Vector3 randomDirection = Quaternion.Euler(0f, 0f, angleVariation) * Vector3.up;
-                lootRB.AddForce(randomDirection * lootForce, ForceMode.Impulse);
-            }
+                Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 1f), Random.Range(-1f, 1f)).normalized;
+
+                rb.AddForce(randomDirection * throwForce, ForceMode.Impulse);
+
+                OnChestOpened?.Invoke();
+            } 
         }
-        //Delete chest
+        isOpened = true;
+        //delete chest after delay using coroutine
+        if (isOpened)
+        {
+            StartCoroutine(DeleteChestAfterOpening());
+        }
     }
-    public void ShowInteractUI(bool showUI)
+    IEnumerator DeleteChestAfterOpening()
     {
-       interactBox.gameObject.SetActive(showUI);
-       interactText.text = objectDetails.prompt;
+        yield return new WaitForSeconds(2f);
+        Destroy(this.gameObject);
     }
 }

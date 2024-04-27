@@ -5,9 +5,12 @@ using UnityEngine.InputSystem;
 
 public class InteractionHandler : MonoBehaviour
 {
-    private Locomotion locomotion;
+    private AnimationHandler animationHandler;
+    public GameObject interactionUI;
+    public ShowInteractableUI showInteractableUI;
 
-    private IInteractable interactable;
+    private IInteractable interactableObj;
+    private InteractableConfig interactable;
 
 
     [Header("Interactable Range")]
@@ -20,7 +23,7 @@ public class InteractionHandler : MonoBehaviour
 
     void Awake()
     {
-        locomotion = GetComponent<Locomotion>();       
+        animationHandler = GetComponentInChildren<AnimationHandler>();  
     }
     public void Interact()
     {
@@ -28,18 +31,20 @@ public class InteractionHandler : MonoBehaviour
         
         if(numFound > 0f)
         {
-            interactable = colliders[0].GetComponent<IInteractable>();
+            interactableObj = colliders[0].GetComponent<IInteractable>();
+            interactable = interactableObj.GetInteractableConfig();
+            showInteractableUI.InteractionPrompt = interactable.prompt;
+            showInteractableUI.EnableInteractableUI();
 
-            interactable?.ShowInteractUI(true);
-            if(interactable != null && Keyboard.current.fKey.wasPressedThisFrame)
+            if (interactable != null && Keyboard.current.fKey.wasPressedThisFrame)
             {
-                interactable.Interact();
+                animationHandler.PlayTargetAnimation("Grab", true, .3f);
+                interactableObj.Interact();
             }
         }
         else
         {
-            interactable?.ShowInteractUI(false);
-            interactable = null;
+            showInteractableUI.DisableInteractableUI();
         }
     }   
     private void OnDrawGizmos()

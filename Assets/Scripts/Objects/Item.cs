@@ -1,24 +1,77 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
+using Unity.VisualScripting;
+using System;
+
 public class Item : MonoBehaviour, IInteractable
 {
-    [SerializeField] private InteractableConfig objectDetails;
+    public InteractableConfig objectDetails;
+    private BoxCollider bc;
 
     [Header("UI Settings")]
-    [SerializeField] private TextMeshProUGUI interactText;
-    [SerializeField] private GameObject interactBox;
+    [SerializeField] private string interactText;
+
+    [Header("Item Settings")]
+    [SerializeField] private float rotationForce = 5f;
+    [SerializeField] private float enableColliderDelayTime = .3f;
+
+    public event Action OnItemSpawnedEvent;
+
+    private void Awake()
+    {
+        bc = GetComponent<BoxCollider>();
+        if(bc != null)
+        {
+            bc.enabled = false;
+        }
+    }
+    private void OnEnable()
+    {
+        Chest.OnChestOpened += ItemSpawned;
+    }
+    private void OnDisable()
+    {
+        Chest.OnChestOpened += ItemSpawned;
+    }
+    public InteractableConfig GetInteractableConfig()
+    {
+        print(objectDetails.objName);
+        return objectDetails;
+    }
     public void Interact()
     {
-        print(objectDetails.prompt);
         //access inventory
+
         //delete item in the world
-    }
-    public void ShowInteractUI(bool showUI)
+        print("Got Item");
+        Destroy(this.gameObject);
+    }   
+    public IEnumerator EnableColliderAfterDelay()
     {
-        interactBox.gameObject.SetActive(showUI);
-        interactText.text = objectDetails.prompt;
+        yield return new WaitForSeconds(enableColliderDelayTime);
+        bc.enabled = true;
+    }
+    private void ItemSpawned()
+    {
+
+        StartCoroutine(EnableColliderAfterDelay());
+        StartCoroutine(SpinItem());
+    }
+    private IEnumerator SpinItem()
+    {
+        float duration = 5f;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            transform.Rotate(Vector3.up * rotationForce * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        if(elapsedTime > duration)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

@@ -19,8 +19,7 @@ public class PlayerManager : MonoBehaviour
         animationHandler = GetComponentInChildren<AnimationHandler>();
     }
     void Update()
-    {
-        
+    {       
         interactionHandler.Interact();
     }
     void FixedUpdate()
