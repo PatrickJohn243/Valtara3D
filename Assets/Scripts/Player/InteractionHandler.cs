@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,9 +30,11 @@ public class InteractionHandler : MonoBehaviour
     {
         numFound = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionRadius, colliders, interactableMask);
         
+        //if(numFound > 0f && colliders[0].TryGetComponent<IInteractable>(out interactableObj))
         if(numFound > 0f)
         {
             interactableObj = colliders[0].GetComponent<IInteractable>();
+            print(interactableObj);
             interactable = interactableObj.GetInteractableConfig();
             showInteractableUI.InteractionPrompt = interactable.prompt;
             showInteractableUI.EnableInteractableUI();

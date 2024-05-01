@@ -6,18 +6,16 @@ using Unity.VisualScripting;
 using System;
 
 public class Item : MonoBehaviour, IInteractable
-{
-    public InteractableConfig objectDetails;
+{  
     private BoxCollider bc;
 
     [Header("UI Settings")]
-    [SerializeField] private string interactText;
+    [SerializeField] private InteractableConfig objectDetails;
+    //[SerializeField] private string interactText;
 
     [Header("Item Settings")]
     [SerializeField] private float rotationForce = 5f;
     [SerializeField] private float enableColliderDelayTime = .3f;
-
-    public event Action OnItemSpawnedEvent;
 
     private void Awake()
     {
@@ -33,13 +31,9 @@ public class Item : MonoBehaviour, IInteractable
     }
     private void OnDisable()
     {
-        Chest.OnChestOpened += ItemSpawned;
+        Chest.OnChestOpened -= ItemSpawned;
     }
-    public InteractableConfig GetInteractableConfig()
-    {
-        print(objectDetails.objName);
-        return objectDetails;
-    }
+    public InteractableConfig GetInteractableConfig() => objectDetails;
     public void Interact()
     {
         //access inventory
@@ -47,17 +41,16 @@ public class Item : MonoBehaviour, IInteractable
         //delete item in the world
         print("Got Item");
         Destroy(this.gameObject);
-    }   
-    public IEnumerator EnableColliderAfterDelay()
-    {
-        yield return new WaitForSeconds(enableColliderDelayTime);
-        bc.enabled = true;
     }
     private void ItemSpawned()
     {
-
         StartCoroutine(EnableColliderAfterDelay());
         StartCoroutine(SpinItem());
+    }
+    private IEnumerator EnableColliderAfterDelay()
+    {
+        yield return new WaitForSeconds(enableColliderDelayTime);
+        bc.enabled = true;
     }
     private IEnumerator SpinItem()
     {

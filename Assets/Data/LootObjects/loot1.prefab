@@ -148,5 +148,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectDetails: {fileID: 11400000, guid: 4d5537e77123d7d419a4a1087a3a1f64, type: 2}
   interactText: Gather
-  rotationForce: 10
+  rotationForce: 30
   enableColliderDelayTime: 0.3

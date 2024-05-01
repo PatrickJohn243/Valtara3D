@@ -11,6 +11,5 @@ public class InteractableConfig : ScriptableObject
     public Texture2D itemImg;
     public GameObject[] interactableObj; 
 
-    public string objName;
     public string prompt;
 }
