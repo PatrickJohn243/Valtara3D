@@ -20,7 +20,11 @@ public class Locomotion : MonoBehaviour
     [Header("Conditions")]
     [SerializeField] private bool canRotate = true;
     [SerializeField] private bool canMove = true;
-    [SerializeField] private bool isInteracting;
+
+    [Header("Flags")]
+    public bool isInteracting;
+    public bool isTalking;
+    public bool isOpeningInventory;
 
     float currentVelocity;
 
@@ -31,6 +35,14 @@ public class Locomotion : MonoBehaviour
         inputHandler = GetComponent<InputHandler>();
         animationHandler = GetComponentInChildren<AnimationHandler>();
     }
+    private void OnEnable()
+    {
+        NPC.ToggleIsTalking += SetIsTalking;
+    }
+    private void OnDisable()
+    {
+        NPC.ToggleIsTalking -= SetIsTalking;
+    }
     public void InitializeAction(float delta)
     {
         HandleMove();
@@ -38,10 +50,11 @@ public class Locomotion : MonoBehaviour
         HandleInteract();
         HandleRoll(delta);
         GetIsInteracting();
+        HandleAttack(delta);
     }
     void HandleMove()
-    {   //need refactor
-        if (canMove)
+    {   // --> need refactor conditions
+        if (canMove && !isInteracting && !isTalking)//if canmove and is not interacting and not istalking and not isopening inventory
         {
             Vector3 direction = inputHandler.moveDirection;
             direction = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up) * direction;
@@ -54,7 +67,8 @@ public class Locomotion : MonoBehaviour
         Vector3 direction = inputHandler.moveDirection;
         if (canRotate)
         {
-            if(direction != Vector3.zero)
+            // --> need refactor conditions
+            if (direction != Vector3.zero && !isInteracting && !isTalking)
             {
                 // Rotate the input direction by the camera's rotation
                 direction = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up) * direction;
@@ -84,8 +98,15 @@ public class Locomotion : MonoBehaviour
                 EnableRotate();
                 EnableMove();
             }
+        } 
+    }
+    void HandleAttack(float delta)
+    {
+        if(inputHandler.leftButtonPressed && !isInteracting)
+        {
+            print("Attack");
+            //play attack animation
         }
-        
     }
     void HandleInteract()
     {
@@ -99,6 +120,11 @@ public class Locomotion : MonoBehaviour
             EnableRotate();
             EnableMove();
         }
+    }
+    bool SetIsTalking()
+    {
+        isTalking = !isTalking;
+        return isTalking;
     }
     public void EnableRotate()
     {

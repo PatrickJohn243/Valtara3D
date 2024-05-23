@@ -6,20 +6,27 @@ using UnityEngine.InputSystem;
 public class InputHandler : MonoBehaviour
 {
     public PlayerControls playerController;
+    private Locomotion locomotion;
 
     //InputValues
     Vector2 moveInput;
-    
+
     //Placeholoders
     public float moveAmount;
     public Vector3 moveDirection;
 
+    [Header("Flags")]
     public bool rollInputPressed = false;
+    public bool leftButtonPressed = false;
     public bool interactInputPressed = false;
-    
+
+    public bool isInventoryPressed = false;
+    public bool isQuestTabPressed = false;
+
     void Awake()
     {
         playerController = new PlayerControls();
+        locomotion = GetComponent<Locomotion>();
     }
     void OnEnable()
     {
@@ -27,6 +34,7 @@ public class InputHandler : MonoBehaviour
 
         playerController.Player.Move.performed += playerController => moveInput = playerController.ReadValue<Vector2>();
         playerController.Player.Move.canceled += playerController => moveInput = Vector2.zero;
+
     }
     void OnDisable()
     {
@@ -34,20 +42,37 @@ public class InputHandler : MonoBehaviour
 
         playerController.Player.Move.performed -= playerController => moveInput = playerController.ReadValue<Vector2>();
         playerController.Player.Move.canceled -= playerController => moveInput = Vector2.zero;
+
     }
-    public void TickInput(float delta)
+    private void Start()
     {
+        //UpdateLeftButton();
+    }
+    public void FixedTickInput(float delta)
+    {
+        //Player Actions
         MovementInputHandler(delta);
         RollInputHandler();
         InteractInputHandler();
+        AttackInputHandler();     
     }
+    public void TickInput(float delta)
+    {
+        //Features
+        OpenInventoryHandler();
+        OpenQuestHandler();
+    }
+
     void MovementInputHandler(float delta)
     {
         float horizontal = moveInput.x;
         float vertical = moveInput.y;
         //used for setting as a animation parameter for blend tree
 
-        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+        if (!locomotion.isTalking)
+        {
+            moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+        }
 
         //used for setting direction for locomotion
         moveDirection = new Vector3(horizontal, 0f, vertical);
@@ -59,6 +84,25 @@ public class InputHandler : MonoBehaviour
     void InteractInputHandler()
     {
         interactInputPressed = playerController.Player.Interact.phase == InputActionPhase.Performed;
+    }
+    void AttackInputHandler()
+    {
+        leftButtonPressed = playerController.Player.Attack.phase == InputActionPhase.Performed;
+        //leftButtonPressed = playerController.Player.Attack.triggered;
+    }
+    void OpenInventoryHandler()
+    {
+        if (playerController.Player.OpenInventory.triggered)
+        {
+            isInventoryPressed = !isInventoryPressed;
+        }
+    }
+    void OpenQuestHandler()
+    {
+        if(playerController.Player.OpenQuest.triggered)
+        {
+            isQuestTabPressed = !isQuestTabPressed;
+        }
     }
 }
 

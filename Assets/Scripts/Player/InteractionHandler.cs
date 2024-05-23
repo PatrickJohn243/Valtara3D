@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class InteractionHandler : MonoBehaviour
 {
     private AnimationHandler animationHandler;
+    private Locomotion locomotion;
+
     public GameObject interactionUI;
     public ShowInteractableUI showInteractableUI;
 
@@ -25,23 +27,35 @@ public class InteractionHandler : MonoBehaviour
     void Awake()
     {
         animationHandler = GetComponentInChildren<AnimationHandler>();  
+        locomotion = GetComponent<Locomotion>();
     }
     public void Interact()
     {
         numFound = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionRadius, colliders, interactableMask);
         
-        //if(numFound > 0f && colliders[0].TryGetComponent<IInteractable>(out interactableObj))
-        if(numFound > 0f)
+        if(numFound > 0f && !locomotion.isTalking)
         {
             interactableObj = colliders[0].GetComponent<IInteractable>();
-            print(interactableObj);
+            //print(interactableObj);
+
             interactable = interactableObj.GetInteractableConfig();
             showInteractableUI.InteractionPrompt = interactable.prompt;
             showInteractableUI.EnableInteractableUI();
 
             if (interactable != null && Keyboard.current.fKey.wasPressedThisFrame)
             {
-                animationHandler.PlayTargetAnimation("Grab", true, .3f);
+                switch (interactable.interactableType)
+                {
+                    case InteractableType.NPC:
+                        break;
+                    case InteractableType.Item:
+                        break;
+                    case InteractableType.Structure:
+                        break;
+                    case InteractableType.Chest:
+                        animationHandler.PlayTargetAnimation("Grab", true, .3f);
+                        break;
+                }
                 interactableObj.Interact();
             }
         }
@@ -49,7 +63,7 @@ public class InteractionHandler : MonoBehaviour
         {
             showInteractableUI.DisableInteractableUI();
         }
-    }   
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

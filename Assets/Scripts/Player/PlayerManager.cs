@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager instance;
+
     private InputHandler inputHandler;
     private Locomotion locomotion;
     private AnimationHandler animationHandler;
     private InteractionHandler interactionHandler;
 
-    float delta;
+    private float delta;
     void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         //note: set all getcomponents in awake
         inputHandler = GetComponent<InputHandler>();
         locomotion = GetComponent<Locomotion>();
@@ -26,7 +37,7 @@ public class PlayerManager : MonoBehaviour
     {
         delta = Time.deltaTime;
 
-        inputHandler.TickInput(delta);
+        inputHandler.FixedTickInput(delta);
         locomotion.InitializeAction(delta);
 
         PlayerAnimations();
@@ -35,5 +46,9 @@ public class PlayerManager : MonoBehaviour
     void PlayerAnimations()
     {
         animationHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0f);
+    }
+    public static PlayerManager GetPlayerManager()
+    {
+        return instance;
     }
 }
