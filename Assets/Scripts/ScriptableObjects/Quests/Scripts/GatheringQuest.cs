@@ -11,6 +11,5 @@ public class GatheringQuest : QuestObject
     private void Awake()
     {
         questType = QuestType.Gathering;
-        requiredItemAmount = Random.Range(5, 10);
     }
 }

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: GatheringHerb
   m_EditorClassIdentifier: 
   questID: 1
-  questTitle: Gather Herbs
-  questDescription: Gather 10 Random Herbs
+  questTitle: Gather Rings
+  questDescription: 'Gather 10 Random Rings
+
+'
   questType: 0
   itemRequirement: {fileID: 11400000, guid: 7ca23613f74923444b4c9fc0f0fce33f, type: 2}
   requiredItemAmount: 10

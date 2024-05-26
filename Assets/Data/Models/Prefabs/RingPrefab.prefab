@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a08202c887350b4797b1ca0c6bb1d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj: {fileID: 11400000, guid: 7ca23613f74923444b4c9fc0f0fce33f, type: 2}
   objectDetails: {fileID: 11400000, guid: 4d5537e77123d7d419a4a1087a3a1f64, type: 2}
+  obj: {fileID: 11400000, guid: 7ca23613f74923444b4c9fc0f0fce33f, type: 2}
   rotationForce: 5
   enableColliderDelayTime: 0.3

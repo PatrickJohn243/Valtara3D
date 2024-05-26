@@ -59,7 +59,6 @@ public class InputHandler : MonoBehaviour
         //Features
         OpenInventoryHandler();
         OpenQuestHandler();
-        AttackInputHandler();
     }
 
     void MovementInputHandler(float delta)
@@ -83,18 +82,6 @@ public class InputHandler : MonoBehaviour
     void InteractInputHandler()
     {
         interactInputPressed = playerController.Player.Interact.phase == InputActionPhase.Performed;
-    }
-    void AttackInputHandler()
-    {
-        if (playerController.Player.Attack.triggered)
-        {
-            attackInputPressed = true;
-            print("attack");
-        }
-        else
-        {
-            attackInputPressed = false;
-        }   
     }
     void OpenInventoryHandler()
     {

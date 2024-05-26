@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class AttackHandler : MonoBehaviour
 {
+
+    [SerializeField] private GameObject weapon;
+    private bool setToggle;
+
     public int comboStep = -1;
     private float lastAttackTime;
     [SerializeField] private float comboResetTime = 0.5f; 
@@ -11,40 +15,45 @@ public class AttackHandler : MonoBehaviour
 
     [SerializeField] private AttackObject attackObject;
 
-    public bool canAttack = true;
+    public bool isAttacking = false;
 
     private InputHandler inputHandler;
     private AnimationHandler animationHandler;
     private Locomotion locomotion;
+    private PlayerStatsHandler playerStatsHandler;
 
     private void Start()
     {
         inputHandler = GetComponent<InputHandler>();
         animationHandler = GetComponentInChildren<AnimationHandler>();
-        locomotion = GetComponentInChildren<Locomotion>();  
+        locomotion = GetComponent<Locomotion>(); 
+        playerStatsHandler = GetComponent<PlayerStatsHandler>();
+        
     }
 
     private void Update()
     {
-        if (inputHandler.attackInputPressed && canAttack)
+        if(Input.GetMouseButtonDown(0))
         {
             HandleCombo();
         }
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ToggleWeaponItem();
+        }
         if (Time.time - lastAttackTime > comboResetTime)
         {
             ResetCombo();
         }
+        //if (!locomotion.isInteracting)
+        //{
+        //    isAttacking = false;
+        //}
     }
 
     private void HandleCombo()
     {
         lastAttackTime = Time.time;
-        if (comboStep > 3)
-        {
-            ResetCombo();
-            StartCoroutine(Cooldown());
-        }
         switch (comboStep)
         {
             case 0:
@@ -58,17 +67,16 @@ public class AttackHandler : MonoBehaviour
                 break;
         }
     }
-
     private void Attack1()
     {
         // Implement the first attack logic here
         if (!locomotion.isInteracting)
         {
+            //isAttacking = true;
             string attack1 = attackObject.attackCombo[0].name;
             animationHandler.PlayTargetAnimation(attack1, true, 0.2f);
             comboStep++;
-            print(attack1);
-        }
+        }   
     }
 
     private void Attack2()
@@ -76,37 +84,39 @@ public class AttackHandler : MonoBehaviour
         // Implement the second attack logic here
         if (!locomotion.isInteracting)
         {
+            //isAttacking = true;
             string attack2 = attackObject.attackCombo[1].name;
             animationHandler.PlayTargetAnimation(attack2, true, 0.2f);
             comboStep++;
-            print(attack2);
         }
     }
-
     private void Attack3()
     {
         // Implement the third attack logic here
         if (!locomotion.isInteracting)
         {
+            //isAttacking = true;
             string attack3 = attackObject.attackCombo[2].name;
             animationHandler.PlayTargetAnimation(attack3, true, 0.2f);
             comboStep++;
-            print(attack3);
+            ResetCombo();
         }
     }
-
     private void ResetCombo()
     {
         comboStep = 0;
     }
-
-    private IEnumerator Cooldown()
+    private void ToggleWeaponItem()
     {
-        if(!locomotion.isInteracting)
+        setToggle = !setToggle;
+
+        if (setToggle)
         {
-            canAttack = false;
-            yield return new WaitForSeconds(attackCooldown);
-            canAttack = true;
+            weapon.SetActive(true);
+        }
+        else
+        {
+            weapon.SetActive(false);
         }
     }
 }

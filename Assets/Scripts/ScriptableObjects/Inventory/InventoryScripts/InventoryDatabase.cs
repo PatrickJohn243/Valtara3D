@@ -9,7 +9,8 @@ public class InventoryDatabase : ScriptableObject, ISerializationCallbackReceive
     public Dictionary<int, ItemObject> GetItem = new Dictionary<int, ItemObject>();
 
     public void OnAfterDeserialize()
-    {    
+    {
+        Debug.Log(GetItem);
         for(int i = 0; i < Items.Length; i++)
         {
             Items[i].ID = i;
