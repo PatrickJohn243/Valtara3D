@@ -108,7 +108,7 @@ public class DialogueManager : MonoBehaviour
         }
         else if (npc.type == NPCType.QuestGiver)
         {
-            print("quest giver");
+            //print("quest giver");
             DisplayQuestionDialogue();
         }
         else if (npc.type == NPCType.Trader)

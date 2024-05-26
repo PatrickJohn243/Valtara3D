@@ -17,7 +17,7 @@ public class InputHandler : MonoBehaviour
 
     [Header("Flags")]
     public bool rollInputPressed = false;
-    public bool leftButtonPressed = false;
+    public bool attackInputPressed = false;
     public bool interactInputPressed = false;
 
     public bool isInventoryPressed = false;
@@ -34,7 +34,6 @@ public class InputHandler : MonoBehaviour
 
         playerController.Player.Move.performed += playerController => moveInput = playerController.ReadValue<Vector2>();
         playerController.Player.Move.canceled += playerController => moveInput = Vector2.zero;
-
     }
     void OnDisable()
     {
@@ -42,7 +41,6 @@ public class InputHandler : MonoBehaviour
 
         playerController.Player.Move.performed -= playerController => moveInput = playerController.ReadValue<Vector2>();
         playerController.Player.Move.canceled -= playerController => moveInput = Vector2.zero;
-
     }
     private void Start()
     {
@@ -54,13 +52,14 @@ public class InputHandler : MonoBehaviour
         MovementInputHandler(delta);
         RollInputHandler();
         InteractInputHandler();
-        AttackInputHandler();     
+             
     }
     public void TickInput(float delta)
     {
         //Features
         OpenInventoryHandler();
         OpenQuestHandler();
+        AttackInputHandler();
     }
 
     void MovementInputHandler(float delta)
@@ -87,8 +86,15 @@ public class InputHandler : MonoBehaviour
     }
     void AttackInputHandler()
     {
-        leftButtonPressed = playerController.Player.Attack.phase == InputActionPhase.Performed;
-        //leftButtonPressed = playerController.Player.Attack.triggered;
+        if (playerController.Player.Attack.triggered)
+        {
+            attackInputPressed = true;
+            print("attack");
+        }
+        else
+        {
+            attackInputPressed = false;
+        }   
     }
     void OpenInventoryHandler()
     {

@@ -102,9 +102,9 @@ public class Locomotion : MonoBehaviour
     }
     void HandleAttack(float delta)
     {
-        if(inputHandler.leftButtonPressed && !isInteracting)
+        if(inputHandler.attackInputPressed && !isInteracting)
         {
-            print("Attack");
+            //print("Attack");
             //play attack animation
         }
     }

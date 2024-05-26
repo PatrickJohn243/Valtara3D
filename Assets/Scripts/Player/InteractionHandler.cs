@@ -36,7 +36,6 @@ public class InteractionHandler : MonoBehaviour
         if(numFound > 0f && !locomotion.isTalking)
         {
             interactableObj = colliders[0].GetComponent<IInteractable>();
-            //print(interactableObj);
 
             interactable = interactableObj.GetInteractableConfig();
             showInteractableUI.InteractionPrompt = interactable.prompt;

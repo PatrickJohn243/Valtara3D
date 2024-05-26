@@ -17,6 +17,10 @@ public class NPC : MonoBehaviour, IInteractable
     public GameObject dialogueObj;
 
     public NPCType type;
+    private NPC currentQuestNPC;
+
+
+    private GiveQuest giveQuest;
 
     [Header("UI Settings")]
     [SerializeField] private InteractableConfig objectDetails;
@@ -26,6 +30,9 @@ public class NPC : MonoBehaviour, IInteractable
     [SerializeField] private float turnSpeed = 5f;
     private Vector3 playerPosition;
 
+    [Header("Quest Status")]
+    public bool isQuestStarted = false;
+
     public delegate void TriggerDialogue();
     public static event TriggerDialogue ChangeToDialogueCam;
     public static event TriggerDialogue ChangeToThirdPersonCam;
@@ -33,9 +40,36 @@ public class NPC : MonoBehaviour, IInteractable
     public delegate bool SetIsTalking();
     public static event SetIsTalking ToggleIsTalking;
 
+    private void Awake()
+    {
+        giveQuest = GetComponent<GiveQuest>();
+    }
+    private void OnEnable()
+    {
+        QuestHandler.SetIsQuestStarted += ToggleIsQuestStarted;
+    }
+    private void OnDisable()
+    {
+        QuestHandler.SetIsQuestStarted -= ToggleIsQuestStarted;
+    }
     public InteractableConfig GetInteractableConfig() => objectDetails;  
     public void Interact()
     {
+        //print("current Quest NPC = " + currentQuestNPC);
+        //print("this = " + this);
+        if (type == NPCType.QuestGiver && currentQuestNPC == this)
+        {
+            print("take items from inventory");
+            giveQuest.GetObjectivesInPlayerInventory();
+            return;
+        }
+        if (type == NPCType.QuestGiver && isQuestStarted && currentQuestNPC != this) //prevents player from taking many quests
+        {
+            //spawn text of finish quest first
+            print("Finish Quest First!");
+            return;
+        }
+        
         UpdatePlayerPosition();
         StartDialogue();
         //if merchant, another script handles the trading process
@@ -50,6 +84,9 @@ public class NPC : MonoBehaviour, IInteractable
         //to be put to dialogue manager
         dialogueObj?.SetActive(true);
         dialogueManager.StartDialogue(conversation, question);
+
+        //sets current NPC to avoid taking quest to other quest NPCs
+        currentQuestNPC = this;
     }
     //refactor
     public void EndDialogue()
@@ -74,5 +111,13 @@ public class NPC : MonoBehaviour, IInteractable
     void UpdatePlayerPosition()
     {
         playerPosition = FindObjectOfType<InteractionHandler>().transform.position;
+    }
+    void ToggleIsQuestStarted()
+    {
+        isQuestStarted = !isQuestStarted;
+        if (!isQuestStarted)
+        {
+            currentQuestNPC = null;
+        }
     }
 }

@@ -26,6 +26,18 @@ public class InventoryObject : ScriptableObject
         }
         SetEmptySlot(_item, _amount);
     }
+    public void SubtractItem(Item _item, int _amount) //calls when player is delivering items to NPC
+    {
+        for (int i = 0; i < Container.Items.Length; i++)
+        {
+            if (Container.Items[i].ID == _item.ID)
+            {
+                Container.Items[i].SubtractAmount(_amount);
+                return;
+            }
+        }
+        SetEmptySlot(_item, _amount);
+    }
     public InventorySlot SetEmptySlot(Item _item, int _amount)
     {
         for (int i = 0; i < Container.Items.Length; i++)
@@ -110,5 +122,9 @@ public class InventorySlot
     public void AddAmount(int value)
     {
         amount += value;
+    }
+    public void SubtractAmount(int value)
+    {
+        amount -= value;
     }
 }

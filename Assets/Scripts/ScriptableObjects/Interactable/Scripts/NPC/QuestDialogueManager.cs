@@ -34,7 +34,6 @@ public class QuestDialogueManager : MonoBehaviour
     }
     public void EnableChoices()
     {
-        print("set choice is called");
         for (int i = 0; i < choiceText.Length; i++)
         {
             int currentIndex = i;
@@ -57,5 +56,25 @@ public class QuestDialogueManager : MonoBehaviour
         Conversation.ConversationLines lines = questionObj.choices[choiceChount].conversation;
         dialogueManager.dialogueText.text = lines.text;
         isChoosingDone = true;
+
+        if (choiceChount == 0)
+        {
+            GiveQuestToPlayer();
+        }
+        else
+        {
+            return;
+        }
+    }
+    public void GiveQuestToPlayer()
+    {
+        //add a quest to player's quest tab
+        //if the player chooses the first button, the give quest, else, ignore
+        GiveQuest giveQuest = GetComponent<GiveQuest>();
+        if(giveQuest != null)
+        {
+            giveQuest.ReturnQuest();
+        }
+
     }
 }

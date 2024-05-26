@@ -38,6 +38,7 @@ public class PlayerManager : MonoBehaviour
         delta = Time.deltaTime;
 
         inputHandler.FixedTickInput(delta);
+        inputHandler.TickInput(delta);
         locomotion.InitializeAction(delta);
 
         PlayerAnimations();
