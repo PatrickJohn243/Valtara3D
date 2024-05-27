@@ -23,7 +23,7 @@ public class PlayerStatsHandler : MonoBehaviour
     }
     public void TakeDamage(int amount)
     {
-        print("player Damaged");
+
         currentHealth -= amount;
         if (currentHealth == 0)
         {

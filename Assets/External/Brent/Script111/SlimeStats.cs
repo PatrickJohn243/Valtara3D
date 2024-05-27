@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SlimeStats : MonoBehaviour
 {
+    public GameObject slimeprefab;
     public int maxHealth;
     public int currentHealth;
     public int attackDamage;
@@ -39,7 +40,7 @@ public class SlimeStats : MonoBehaviour
     }
     private void EnemyDied()
     {
-        Destroy(gameObject);
+        Destroy(slimeprefab);
     }
     private void KnockedBack()
     {
@@ -67,7 +68,6 @@ public class SlimeStats : MonoBehaviour
             if (collider.CompareTag("Player"))
             {
                 playerStatsHandler = collider.GetComponent<PlayerStatsHandler>();
-                print(playerStatsHandler);
                 if (playerStatsHandler != null)
                 {
                     playerStatsHandler.TakeDamage(attackDamage);

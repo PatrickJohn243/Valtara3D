@@ -17,13 +17,13 @@ public class SlimeSpawner : MonoBehaviour
     {
         detection = slimePrefab.GetComponent<Detection>();
     }
-    void Start()
+    private void Start()
     {
         detection.player = target.transform;
         SpawnSlimes();
     }
 
-    void Update()
+    private void Update()
     {
         // Check if any slimes have been killed
         for (int i = 0; i < spawnedSlimes.Count; i++)
