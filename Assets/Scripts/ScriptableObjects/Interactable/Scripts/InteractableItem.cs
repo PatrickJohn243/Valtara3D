@@ -1,6 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System;
+
+public enum ObjectType
+{
+    spawnedItem,
+    worldItem
+}
 public class InteractableItem : MonoBehaviour, IInteractable
 {  
     [Header("UI Settings")]
@@ -10,6 +16,7 @@ public class InteractableItem : MonoBehaviour, IInteractable
     [SerializeField] private ItemObject obj;
     [SerializeField] private float rotationForce = 5f;
     [SerializeField] private float enableColliderDelayTime = .3f;
+    [SerializeField] private ObjectType objectType = ObjectType.spawnedItem;
 
     private BoxCollider bc;
 
@@ -20,14 +27,21 @@ public class InteractableItem : MonoBehaviour, IInteractable
     private void Awake()
     {
         bc = GetComponent<BoxCollider>();
-        if(bc != null)
+        if(bc != null && objectType == ObjectType.spawnedItem)
         {
             bc.enabled = false;
+        }
+        else
+        {
+            bc.enabled = true;
         }
     }
     private void Start()
     {
-        ItemSpawned();
+        if(objectType == ObjectType.spawnedItem)
+        {
+            ItemSpawned();
+        }
     }
     public InteractableConfig GetInteractableConfig() => objectDetails;
     public void Interact()

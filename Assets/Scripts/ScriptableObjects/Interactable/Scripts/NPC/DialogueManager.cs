@@ -31,7 +31,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && isDialogueStarted == true)
+        if (Input.GetKeyDown(KeyCode.C) && isDialogueStarted == true)
         {
             DisplayNextLine();
         }

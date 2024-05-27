@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Mike - Convo
   m_EditorClassIdentifier: 
   conversationLines:
-  - text: Hey, I really need that bowl for myself, but I found out that area is full
-      of slimes.
+  - text: "I know who you are, you\u2019re Aeris aren\u2019t you? I have heard so
+      much about you from my little critter friends here."
+    speaker: Mike
+  - text: I remember an old relic my dear wife used during this time of the war in
+      Terraria.
+    speaker: Mike
+  - text: I can only point you the north direction, where the slimes reside.
     speaker: Mike
