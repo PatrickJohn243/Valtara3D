@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a46944b61d5da74f8ee40a356b399ca, type: 3}
   m_Name: Mike - Questions
   m_EditorClassIdentifier: 
-  question: What are you?
+  question: Can you help me get that bowl?
   choices:
-  - choice: Human
+  - choice: Yeah, why not!
     conversation:
-      text: Good
+      text: I'll pay you handsomely
       speaker: Mike
-  - choice: Valtarian
+  - choice: No
     conversation:
-      text: Well Done
+      text: Lazy bastard
       speaker: Mike

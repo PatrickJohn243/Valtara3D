@@ -88,7 +88,6 @@ public class Detection : MonoBehaviour
                     Debug.DrawRay(transform.position, transform.forward * maxDistance, raycastColor);
             }
         }
-        
     }
 
     public void SetPlayerDetected(bool detected)

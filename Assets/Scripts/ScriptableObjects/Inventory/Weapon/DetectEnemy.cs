@@ -29,13 +29,12 @@ public class DetectEnemy : MonoBehaviour
     //}
     private void OnTriggerEnter(Collider other)
     {
-        print(other.name);
         if (other.CompareTag("Enemy"))
         {
             slimeStats = other.GetComponent<SlimeStats>();
             print(slimeStats);
 
-            if (slimeStats != null && attackHandler.isAttacking)
+            if (slimeStats != null)
             {
                 slimeStats.TakeDamage(playerStatsHandler.attackDamage);
             }

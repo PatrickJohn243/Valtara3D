@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatsHandler : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class PlayerStatsHandler : MonoBehaviour
 
     public int attackDamage;
 
+    [SerializeField] private Image healthBar;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -16,9 +19,11 @@ public class PlayerStatsHandler : MonoBehaviour
     private void Update()
     {
         //print(currentHealth);
+        SetHealthUI();
     }
     public void TakeDamage(int amount)
     {
+        print("player Damaged");
         currentHealth -= amount;
         if (currentHealth == 0)
         {
@@ -34,5 +39,9 @@ public class PlayerStatsHandler : MonoBehaviour
     {
         //play down animation
         //enable restart UI
+    }
+    private void SetHealthUI()
+    {
+        healthBar.fillAmount = (currentHealth * .01f);
     }
 }

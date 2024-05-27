@@ -11,7 +11,6 @@ public class AttackHandler : MonoBehaviour
     public int comboStep = -1;
     private float lastAttackTime;
     [SerializeField] private float comboResetTime = 0.5f; 
-    [SerializeField] private float attackCooldown = 1f; 
 
     [SerializeField] private AttackObject attackObject;
 
@@ -33,7 +32,7 @@ public class AttackHandler : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && weapon != false)
         {
             HandleCombo();
         }

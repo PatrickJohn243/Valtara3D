@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: GatheringHerb
   m_EditorClassIdentifier: 
   questID: 1
-  questTitle: Gather Rings
-  questDescription: 'Gather 10 Random Rings
-
-'
+  questTitle: Gather Bowl
+  questDescription: Take the bowl from the slimes.
   questType: 0
   itemRequirement: {fileID: 11400000, guid: 7ca23613f74923444b4c9fc0f0fce33f, type: 2}
   requiredItemAmount: 10

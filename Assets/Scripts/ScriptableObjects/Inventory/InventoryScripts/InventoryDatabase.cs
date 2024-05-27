@@ -10,7 +10,6 @@ public class InventoryDatabase : ScriptableObject, ISerializationCallbackReceive
 
     public void OnAfterDeserialize()
     {
-        Debug.Log(GetItem);
         for(int i = 0; i < Items.Length; i++)
         {
             Items[i].ID = i;

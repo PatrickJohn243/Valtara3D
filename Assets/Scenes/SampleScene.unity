@@ -1547,7 +1547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23319185, y: -4.261606e-16, z: 1.0219461e-16, w: 0.97243077}
+  m_LocalRotation: {x: 0.23319185, y: 0, z: 0, w: 0.97243077}
   m_LocalPosition: {x: 0, y: 3.901, z: -6.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2325,7 +2325,7 @@ GameObject:
   - component: {fileID: 529775287}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2515,7 +2515,6 @@ MonoBehaviour:
   weapon: {fileID: 1420653687}
   comboStep: 0
   comboResetTime: 0.5
-  attackCooldown: 0.5
   attackObject: {fileID: 11400000, guid: 09b7a4f4227e86b41a26fab2553f191e, type: 2}
   isAttacking: 0
 --- !u!114 &529775287
@@ -3285,7 +3284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759088463}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21551217, y: -8.493991e-16, z: 1.6460504e-16, w: 0.97650117}
+  m_LocalRotation: {x: 0.21551217, y: -0.000000012054444, z: 0.0000000026603952, w: 0.97650117}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6195,7 +6194,7 @@ Transform:
   m_GameObject: {fileID: 1719863396}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25084126, y: -3.6673854e-15, z: 1.2306902e-15, w: 0.9680283}
-  m_LocalPosition: {x: 0, y: 0.000004053116, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0000047683716, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6487,7 +6486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781026188}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23319188, y: -2.938696e-16, z: -4.494704e-16, w: 0.97243077}
+  m_LocalRotation: {x: 0.23319188, y: 8.364876e-30, z: -7.978548e-31, w: 0.97243077}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6724,9 +6723,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728c95fdcd847034a92d54ce584258c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
   attackDamage: 5
+  knockbackForce: 0
+  radius: 1
+  overlappingColliders: []
 --- !u!1 &2125504580
 GameObject:
   m_ObjectHideFlags: 0
