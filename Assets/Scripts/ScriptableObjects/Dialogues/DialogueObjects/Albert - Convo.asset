@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: Albert - Convo
   m_EditorClassIdentifier: 
   conversationLines:
-  - text: Hey there, I've been looking at this sword forever, it's so mesmerizing,
-      I can't stop looking at it.
+  - text: "Aeris! Hey! I just got word of something really cool you\u2019re probably
+      interested in."
     speaker: Albert
-  - text: Go away, and don't bother me.
+  - text: 'Would be really great if someone stopped the corporations from taking
+      our homes. Valtara used to be peaceful, but everywhere you go is just desolate
+      and sad.
+
+'
+    speaker: Albert
+  - text: "When I got to Valtara, I was hoping there would be more trading. They
+      weren\u2019t joking when they said the corporations had ruined the place.\r\n"
     speaker: Albert

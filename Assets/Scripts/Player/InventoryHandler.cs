@@ -42,7 +42,6 @@ public class InventoryHandler : MonoBehaviour
     {
         if (item != null)
         {
-            print("Item Added");
             inventory.AddItem(item, 1);
         }
     }
@@ -51,13 +50,11 @@ public class InventoryHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             inventory.Save();
-            print("Inventory Saved");
         }
         if (Input.GetKeyDown(KeyCode.RightShift))
         {
             inventory.Load();
             displayInventory.RefreshDisplay();
-            print("Inventory Loaded");
         }
     }
     private void ToggleInventory()
@@ -73,6 +70,6 @@ public class InventoryHandler : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        inventory.Container.Items = new InventorySlot[24];
+        inventory.Container.Items = new InventorySlot[12];
     }
 }
