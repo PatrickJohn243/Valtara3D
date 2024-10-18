@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public AudioSource tapButton;
+    public AudioClip tapClip;
     public GameObject healthBar;
     public Camera cameraUI;
     public GameObject mainMenu;
@@ -16,9 +18,15 @@ public class MainMenu : MonoBehaviour
         healthBar.SetActive(true);
         cameraUI.enabled = false;
         mainMenu.SetActive(false);
+        PlayAudio();
     }
     public void ExitGame()
     {
         Application.Quit();
+    }
+    void PlayAudio()
+    {
+        tapButton.clip = tapClip;
+        tapButton.Play();
     }
 }

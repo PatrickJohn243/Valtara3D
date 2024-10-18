@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a46944b61d5da74f8ee40a356b399ca, type: 3}
   m_Name: Michael - Questions
   m_EditorClassIdentifier: 
-  question: 
-  choices: []
+  question: Can you help and give me lime rocks.
+  choices:
+  - choice: Sure
+    conversation:
+      text: Thanks a lot
+      speaker: Caspian
+  - choice: No
+    conversation:
+      text: Ok bye
+      speaker: Caspian

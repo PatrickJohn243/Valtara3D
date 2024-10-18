@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AttackHandler : MonoBehaviour
 {
-
+    public AudioSource attackAudio;
+    public AudioClip attackClip;
     [SerializeField] private GameObject weapon;
     private bool setToggle;
 
@@ -32,7 +33,7 @@ public class AttackHandler : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0) && weapon != false)
+        if(Input.GetMouseButtonDown(0) && weapon != false && !locomotion.isTalking)
         {
             HandleCombo();
         }
@@ -87,6 +88,7 @@ public class AttackHandler : MonoBehaviour
             string attack2 = attackObject.attackCombo[1].name;
             animationHandler.PlayTargetAnimation(attack2, true, 0.2f);
             comboStep++;
+            PlayAttackAudio();
         }
     }
     private void Attack3()
@@ -98,6 +100,7 @@ public class AttackHandler : MonoBehaviour
             string attack3 = attackObject.attackCombo[2].name;
             animationHandler.PlayTargetAnimation(attack3, true, 0.2f);
             comboStep++;
+            PlayAttackAudio();
             ResetCombo();
         }
     }
@@ -117,5 +120,10 @@ public class AttackHandler : MonoBehaviour
         {
             weapon.SetActive(false);
         }
+    }
+    void PlayAttackAudio()
+    {
+        attackAudio.clip = attackClip;
+        attackAudio.Play();
     }
 }

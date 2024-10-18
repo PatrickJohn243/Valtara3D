@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class InventoryHandler : MonoBehaviour
 {
+    public AudioSource inventoryAudio;
+    public AudioClip inventoryClip;
     public InventoryObject inventory;
     public DisplayInventory displayInventory;
     private InputHandler inputHandler;
@@ -62,6 +64,7 @@ public class InventoryHandler : MonoBehaviour
         if(inputHandler.isInventoryPressed == true)
         {
             displayInventory.EnableInventory();
+            PlayOnInventoryOpen();
         }
         else if(inputHandler.isInventoryPressed == false)
         {
@@ -71,5 +74,10 @@ public class InventoryHandler : MonoBehaviour
     private void OnApplicationQuit()
     {
         inventory.Container.Items = new InventorySlot[12];
+    }
+    private void PlayOnInventoryOpen()
+    {
+        inventoryAudio.clip = inventoryClip;
+        inventoryAudio.Play();
     }
 }
